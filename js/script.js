@@ -16,7 +16,6 @@ FSJS project 2 - List Filter and Pagination
 
 const studentListItems = document.querySelectorAll('.student-item');
 const itemsPerPage = 10;
-console.log(studentListItems);
 
 
 /*** 
@@ -38,17 +37,57 @@ function showPage(list, page) {
    const startIndex = (page * itemsPerPage) - itemsPerPage;
    const endIndex = (page * itemsPerPage);
 
-   for (let i = 0, i < list.length, i += 1) {
-      
+   for (let i = 0; i < list.length; i += 1) {
+      if (i >= startIndex && i < endIndex) {
+         studentListItems[i].style.display = 'block';
+      } else {
+         studentListItems[i].style.display = 'none';
+      } 
    }
 }
 
+// showPage(studentListItems, 1);
 
 /*** 
    Create the `appendPageLinks function` to generate, append, and add 
    functionality to the pagination buttons.
 ***/
 
+function appendPageLinks(list) {
+   const listLength = studentListItems.length;
+   const pagesNeeded = Math.floor(listLength/itemsPerPage);
+   const paginationContainer = document.querySelector('.page');
+   let paginationStart = `<ul>`;
+   const newDiv = document.createElement('div');
+   newDiv.className = "pagination";
+   paginationContainer.appendChild(newDiv);
+
+   for (let p = 1; p <= pagesNeeded; p += 1) {
+      if (pagesNeeded === 1) {
+         paginationStart += `<li><a href="#">1</a></li>`
+      } else {
+         paginationStart += `<li><a href="#">${p}</a></li>`
+      }
+   }
+   paginationStart += `</ul>`;
+   newDiv.innerHTML = paginationStart;
+
+   const aPageElement = document.querySelectorAll('.pagination a');
+   aPageElement[0].classList.add('active');
+   for (let a = 0; a < aPageElement.length; a += 1) {
+      aPageElement[a].addEventListener('click', (e) => {
+         for (let b = 0; b < aPageElement.length; b += 1) {
+            aPageElement[b].classList.remove('active');
+         }
+         aPageElement[a].classList.add('active');
+         showPage(studentListItems, a+1);
+      });
+   }
+
+   console.log(aPageElement);
+}
+
+appendPageLinks(studentListItems);
 
 
 
