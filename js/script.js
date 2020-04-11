@@ -83,10 +83,9 @@ function appendPageLinks(list) {
          showPage(studentListItems, a+1);
       });
    }
-
-   console.log(aPageElement);
 }
 
+showPage(studentListItems, 1);
 appendPageLinks(studentListItems);
 
 
