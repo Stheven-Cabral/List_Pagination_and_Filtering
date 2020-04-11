@@ -3,9 +3,6 @@ Treehouse Techdegree:
 FSJS project 2 - List Filter and Pagination
 ******************************************/
    
-// Study guide for this project - https://drive.google.com/file/d/1OD1diUsTMdpfMDv677TfL1xO2CEkykSz/view?usp=sharing
-
-
 /*** 
    Add your global variables that store the DOM elements you will 
    need to reference and/or manipulate. 
@@ -17,7 +14,9 @@ FSJS project 2 - List Filter and Pagination
    scoped to that function.
 ***/
 
-
+const studentListItems = document.querySelectorAll('.student-item');
+const itemsPerPage = 10;
+console.log(studentListItems);
 
 
 /*** 
@@ -35,7 +34,14 @@ FSJS project 2 - List Filter and Pagination
        "invoke" the function 
 ***/
 
+function showPage(list, page) {
+   const startIndex = (page * itemsPerPage) - itemsPerPage;
+   const endIndex = (page * itemsPerPage);
 
+   for (let i = 0, i < list.length, i += 1) {
+      
+   }
+}
 
 
 /*** 
