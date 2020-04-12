@@ -16,6 +16,7 @@ FSJS project 2 - List Filter and Pagination
 
 const studentListItems = document.querySelectorAll('.student-item');
 const itemsPerPage = 10;
+const pageContainer = document.querySelector('.page');
 
 /*** 
    Create the `showPage` function to hide all of the items in the 
@@ -53,16 +54,15 @@ function showPage(list, page) {
 ***/
 
 function appendPageLinks(list) {
-   const listLength = studentListItems.length;
+   const listLength = list.length;
    const pagesNeeded = Math.floor(listLength/itemsPerPage);
-   const paginationContainer = document.querySelector('.page');
    let paginationStart = `<ul>`;
    const newDiv = document.createElement('div');
    newDiv.className = "pagination";
-   paginationContainer.appendChild(newDiv);
+   pageContainer.appendChild(newDiv);
 
    for (let p = 1; p <= pagesNeeded; p += 1) {
-      if (pagesNeeded === 1) {
+      if (pagesNeeded <= 1) {
          paginationStart += `<li><a href="#">1</a></li>`
       } else {
          paginationStart += `<li><a href="#">${p}</a></li>`
@@ -97,6 +97,39 @@ function appendSearchBar() {
    const searchBarContainer = document.createElement('div');
    pageHeaderContainer.appendChild(searchBarContainer);
    searchBarContainer.classList.add("student-search");
-   searchBarContainer.innerHTML = `<input placeholder="Search for students..."><button>Search</button>`;
+   searchBarContainer.innerHTML = `<input id="search-input" placeholder="Search for students..."><button id="search-button">Search</button>`;
 }
 appendSearchBar()
+
+/***
+ * Create global variables for the search input and search button.
+ * `searchList` function - filters the list of students when a user uses the search bar.
+ * Call the `searchList` function on search button click event.
+ * Call the `searchList` function on search bar keyup event.
+ ***/
+
+const search = document.querySelector('#search-input');
+const submit = document.querySelector('#search-button');
+
+function searchList(searchInput, students) {
+   let searchResults = [];
+
+   for (let i = 0; i < students.length; i += 1) {
+      students[i].style.display = 'none';
+      if (searchInput.value.length !== 0 && students[i].textContent.toLowerCase().includes(searchInput.value.toLowerCase())) {
+         students[i].style.display = 'block';
+         searchResults.push(students[i]);
+      } else if (searchInput.value.length === 0) {
+         students[i].style.display = 'block';
+      }
+   }
+ }
+
+ submit.addEventListener('click', (event) => {
+   event.preventDefault();
+   searchList(search, studentListItems);
+ });
+
+ search.addEventListener('keyup', () => {
+   searchList(search, studentListItems);
+ });
