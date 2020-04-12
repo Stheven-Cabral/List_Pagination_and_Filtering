@@ -17,11 +17,6 @@ FSJS project 2 - List Filter and Pagination
 const studentListItems = document.querySelectorAll('.student-item');
 const itemsPerPage = 10;
 
-/***
- * appendSearchBar function - Appends a search bar to the page.
-***/
-function appendSearchBar() {}
-
 /*** 
    Create the `showPage` function to hide all of the items in the 
    list except for the ten you want to show.
@@ -93,6 +88,15 @@ showPage(studentListItems, 1);
 appendPageLinks(studentListItems);
 
 
-
-
-// Remember to delete the comments that came with this file, and replace them with your own code comments.
+/***
+ * appendSearchBar function - Appends a search bar to the page.
+ * Called the appendSearchBar function.
+***/
+function appendSearchBar() {
+   const pageHeaderContainer = document.querySelector('.page-header');
+   const searchBarContainer = document.createElement('div');
+   pageHeaderContainer.appendChild(searchBarContainer);
+   searchBarContainer.classList.add("student-search");
+   searchBarContainer.innerHTML = `<input placeholder="Search for students..."><button>Search</button>`;
+}
+appendSearchBar()
