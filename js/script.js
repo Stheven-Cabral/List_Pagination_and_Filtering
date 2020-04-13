@@ -4,7 +4,10 @@ FSJS project 2 - List Filter and Pagination
 ******************************************/
    
 /*** 
- * Global variables used in various functions.
+ * Created a global variable that contains each student item from the list.
+ * Created a global variable for how many items to list per page.
+ * Created a global variable assigned to the the `.page`.
+
 ***/
 
 const studentListItems = document.querySelectorAll('.student-item');
@@ -24,9 +27,9 @@ function showPage(list, page) {
 
    for (let i = 0; i < list.length; i += 1) {
       if (i >= startIndex && i < endIndex) {
-         studentListItems[i].style.display = 'block';
+         list[i].style.display = 'block';
       } else {
-         studentListItems[i].style.display = 'none';
+         list[i].style.display = 'none';
       } 
    }
 }
@@ -96,8 +99,8 @@ appendSearchBar()
 
 
 /***
- * Create global variables for the search input and search button.
-***/
+* Created global variables assigned to the `#search-input` and `#search-button`.
+ ***/
 
 const search = document.querySelector('#search-input');
 const submit = document.querySelector('#search-button');
@@ -116,14 +119,15 @@ function searchList(searchInput, students) {
       if (searchInput.value.length !== 0 && students[i].textContent.toLowerCase().includes(searchInput.value.toLowerCase())) {
          students[i].style.display = 'block';
          searchResults.push(students[i]);
+         showPage(searchResults, 1);
       } else if (searchInput.value.length === 0) {
          students[i].style.display = 'block';
          searchResults.push(students[i]);
          showPage(studentListItems, 1);
       }
    }
-   addNoResultAlert(searchResults);
    adjustPagination(searchResults);
+   addNoResultAlert(searchResults);
  }
 
 
@@ -148,20 +152,36 @@ function searchList(searchInput, students) {
   ***/
 
  function adjustPagination(list) {
-    const paginationContainer = document.querySelector('.pagination');
+   const paginationContainer = document.querySelector('.pagination');
     pageContainer.removeChild(paginationContainer);
     appendPageLinks(list);
  }
 
 
  /***
-  * `addNoResultAlert` function - accepts a list and displays 'No Result' if the list is empty.
-  * @param {array} list - accepts an array of filtered student list elements.
-  */
- function addNoResultAlert(list) {
-    if (list.length === 0) {
+  * `addNoResultAlert` function - adds a <p> element to the the `.page` container. The <p> element contains the string 'Your search returned no results'.
+  * Called the `addNoResultAlert' function.
+  ***/
+ function noResultAlert() {
+   const paginationContainer = document.querySelector('.pagination');
        const noResultAlertContainer = document.createElement('p');
+       noResultAlertContainer.className = 'no-result';
        noResultAlertContainer.textContent = "Your search returned no results.";
-       pageContainer.appendChild(noResultAlertContainer);
-    }
- }
+       pageContainer.insertBefore(noResultAlertContainer, paginationContainer);
+       noResultAlertContainer.style.display = 'none';
+}
+noResultAlert();
+
+
+/***
+ * `addNoResultAlert` takes a list and displays a no result message when the list length is 0; otherwise, the no result message is not displayed.
+ * @param {array} list - accepts an array of filtered student list elements. 
+ ***/
+function addNoResultAlert(list) {
+   const noResultAlertContainer = document.querySelector('.no-result');
+   if (list.length === 0) {
+      noResultAlertContainer.style.display = 'block';
+   } else {
+      noResultAlertContainer.style.display = 'none';
+   }
+}
