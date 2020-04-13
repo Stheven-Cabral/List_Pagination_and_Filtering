@@ -52,7 +52,7 @@ function appendPageLinks(list) {
    pageContainer.appendChild(newDiv);
 
    for (let p = 0; p <= pagesNeeded; p += 1) {
-      if (p === 0 || p < pagesNeeded ) {
+      if (p < pagesNeeded ) {
          paginationStart += `<li><a href="#">${p+1}</a></li>`
       } else {
          paginationStart += `</ul>`;
@@ -61,16 +61,18 @@ function appendPageLinks(list) {
    newDiv.innerHTML = paginationStart;
 
    const aPageElement = document.querySelectorAll('.pagination a');
-   aPageElement[0].classList.add('active');
-   for (let a = 0; a < aPageElement.length; a += 1) {
-      aPageElement[a].addEventListener('click', () => {
-         for (let b = 0; b < aPageElement.length; b += 1) {
-            aPageElement[b].classList.remove('active');
-         }
-         aPageElement[a].classList.add('active');
-         showPage(studentListItems, a+1);
-      });
-   }
+   if (aPageElement.length > 0) {
+      aPageElement[0].classList.add('active');
+      for (let a = 0; a < aPageElement.length; a += 1) {
+         aPageElement[a].addEventListener('click', () => {
+            for (let b = 0; b < aPageElement.length; b += 1) {
+               aPageElement[b].classList.remove('active');
+            }
+            aPageElement[a].classList.add('active');
+            showPage(studentListItems, a+1);
+         });
+      }
+   }   
 }
 
 
@@ -163,12 +165,11 @@ function searchList(searchInput, students) {
   * Called the `addNoResultAlert' function.
   ***/
  function noResultAlert() {
-   const paginationContainer = document.querySelector('.pagination');
-       const noResultAlertContainer = document.createElement('p');
-       noResultAlertContainer.className = 'no-result';
-       noResultAlertContainer.textContent = "Your search returned no results.";
-       pageContainer.insertBefore(noResultAlertContainer, paginationContainer);
-       noResultAlertContainer.style.display = 'none';
+    const noResultAlertContainer = document.createElement('p');
+    noResultAlertContainer.className = 'no-result';
+    noResultAlertContainer.textContent = "Your search returned no results.";
+    pageContainer.appendChild(noResultAlertContainer);
+    noResultAlertContainer.style.visibility = 'hidden';
 }
 noResultAlert();
 
@@ -177,11 +178,10 @@ noResultAlert();
  * `addNoResultAlert` takes a list and displays a no result message when the list length is 0; otherwise, the no result message is not displayed.
  * @param {array} list - accepts an array of filtered student list elements. 
  ***/
+
 function addNoResultAlert(list) {
    const noResultAlertContainer = document.querySelector('.no-result');
    if (list.length === 0) {
-      noResultAlertContainer.style.display = 'block';
-   } else {
-      noResultAlertContainer.style.display = 'none';
+      noResultAlertContainer.style.visibility = 'visible';
    }
 }
