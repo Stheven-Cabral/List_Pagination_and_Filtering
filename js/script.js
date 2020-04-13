@@ -55,20 +55,19 @@ function showPage(list, page) {
 
 function appendPageLinks(list) {
    const listLength = list.length;
-   const pagesNeeded = Math.floor(listLength/itemsPerPage);
+   const pagesNeeded = Math.ceil(listLength/itemsPerPage);
    let paginationStart = `<ul>`;
    const newDiv = document.createElement('div');
    newDiv.className = "pagination";
    pageContainer.appendChild(newDiv);
 
-   for (let p = 1; p <= pagesNeeded; p += 1) {
-      if (pagesNeeded <= 1) {
-         paginationStart += `<li><a href="#">1</a></li>`
+   for (let p = 0; p <= pagesNeeded; p += 1) {
+      if (p === 0 || p < pagesNeeded ) {
+         paginationStart += `<li><a href="#">${p+1}</a></li>`
       } else {
-         paginationStart += `<li><a href="#">${p}</a></li>`
+         paginationStart += `</ul>`;
       }
    }
-   paginationStart += `</ul>`;
    newDiv.innerHTML = paginationStart;
 
    const aPageElement = document.querySelectorAll('.pagination a');
@@ -121,8 +120,13 @@ function searchList(searchInput, students) {
          searchResults.push(students[i]);
       } else if (searchInput.value.length === 0) {
          students[i].style.display = 'block';
+         searchResults.push(students[i]);
+         showPage(studentListItems, 1);
       }
    }
+
+   addNoResultAlert(searchResults);
+   adjustPagination(searchResults);
  }
 
  submit.addEventListener('click', (event) => {
@@ -133,3 +137,26 @@ function searchList(searchInput, students) {
  search.addEventListener('keyup', () => {
    searchList(search, studentListItems);
  });
+
+ /**
+  * `adjustPagination` function - Takes ones parameter, a list. The function removes the existing
+  * pagination, and adds a new based on the number of students in the filtered list.
+  * @param {array} list 
+  ***/
+
+ function adjustPagination(list) {
+    const paginationContainer = document.querySelector('.pagination');
+    pageContainer.removeChild(paginationContainer);
+    appendPageLinks(list);
+ }
+
+ /***
+  * `addNoResultAlert` function - Takes one paramenter, a list, and displays 'No Result' if the list is empty.
+  */
+ function addNoResultAlert(list) {
+    if (list.length === 0) {
+       const noResultAlertContainer = document.createElement('p');
+       noResultAlertContainer.textContent = "No Results";
+       pageContainer.appendChild(noResultAlertContainer);
+    }
+ }
