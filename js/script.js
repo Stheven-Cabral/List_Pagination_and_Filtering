@@ -161,7 +161,7 @@ function searchList(searchInput, students) {
  function addNoResultAlert(list) {
     if (list.length === 0) {
        const noResultAlertContainer = document.createElement('p');
-       noResultAlertContainer.textContent = "No Results";
+       noResultAlertContainer.textContent = "Your search returned no results.";
        pageContainer.appendChild(noResultAlertContainer);
     }
  }
