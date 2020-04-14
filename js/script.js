@@ -5,6 +5,7 @@ FSJS project 2 - List Filter and Pagination
    
 /*** 
  * Created a global variable that contains each student item from the list.
+ * Created a global variable that contains each student's name only.
  * Created a global variable for how many items to list per page.
  * Created a global variable assigned to the the `.page`.
 
@@ -14,7 +15,6 @@ const studentListItems = document.querySelectorAll('.student-item');
 const studentNames = document.querySelectorAll('.student-details h3');
 const itemsPerPage = 10;
 const pageContainer = document.querySelector('.page');
-console.log(studentNames);
 
 
 /*** 
@@ -111,16 +111,19 @@ const submit = document.querySelector('#search-button');
 
 
 /***
- * `searchList` function - filters the list of students when a user uses the search bar. In addition
-   calls the `addNoResultAlert` and `adjustPagination` functions.
+ * `searchList` function - filters the list of students when a user uses the search bar. 
+   In addition calls the `addNoResultAlert` and `adjustPagination` functions.
+ * @param {string} searchInput - accepts the value of the `#search-input`.
+ * @param {array} names - accepts an array of student names.
+ * @param {array} student - accepts an array of student list items.
 ***/
 
-function searchList(searchInput, studentName, students) {
+function searchList(searchInput, names, students) {
    let searchResults = [];
 
    for (let i = 0; i < students.length; i += 1) {
       students[i].style.display = 'none';
-      if (searchInput.value.length !== 0 && studentName[i].textContent.toLowerCase().includes(searchInput.value.toLowerCase())) {
+      if (searchInput.value.length !== 0 && names[i].textContent.toLowerCase().includes(searchInput.value.toLowerCase())) {
          students[i].style.display = 'block';
          searchResults.push(students[i]);
          showPage(searchResults, 1);
