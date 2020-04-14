@@ -11,8 +11,10 @@ FSJS project 2 - List Filter and Pagination
 ***/
 
 const studentListItems = document.querySelectorAll('.student-item');
+const studentNames = document.querySelectorAll('.student-details h3');
 const itemsPerPage = 10;
 const pageContainer = document.querySelector('.page');
+console.log(studentNames);
 
 
 /*** 
@@ -113,12 +115,12 @@ const submit = document.querySelector('#search-button');
    calls the `addNoResultAlert` and `adjustPagination` functions.
 ***/
 
-function searchList(searchInput, students) {
+function searchList(searchInput, studentName, students) {
    let searchResults = [];
 
    for (let i = 0; i < students.length; i += 1) {
       students[i].style.display = 'none';
-      if (searchInput.value.length !== 0 && students[i].textContent.toLowerCase().includes(searchInput.value.toLowerCase())) {
+      if (searchInput.value.length !== 0 && studentName[i].textContent.toLowerCase().includes(searchInput.value.toLowerCase())) {
          students[i].style.display = 'block';
          searchResults.push(students[i]);
          showPage(searchResults, 1);
@@ -140,11 +142,11 @@ function searchList(searchInput, students) {
 
  submit.addEventListener('click', (event) => {
    event.preventDefault();
-   searchList(search, studentListItems);
+   searchList(search, studentNames, studentListItems);
  });
 
  search.addEventListener('keyup', () => {
-   searchList(search, studentListItems);
+   searchList(search, studentNames, studentListItems);
  });
 
 
