@@ -69,7 +69,7 @@ function appendPageLinks(list) {
                aPageElement[b].classList.remove('active');
             }
             aPageElement[a].classList.add('active');
-            showPage(studentListItems, a+1);
+            showPage(list, a+1);
          });
       }
    }   
@@ -183,5 +183,7 @@ function addNoResultAlert(list) {
    const noResultAlertContainer = document.querySelector('.no-result');
    if (list.length === 0) {
       noResultAlertContainer.style.visibility = 'visible';
+   } else {
+      noResultAlertContainer.style.visibility = 'hidden';
    }
 }
